@@ -18,8 +18,8 @@ namespace OrderService.BusinessLogic.Models
         public long CustomerId { get; set; }
 
         /// <summary>
-        ///     Идентификаторы товаров в заказе
+        ///     Товары в заказе и их количество
         /// </summary>
-        public List<long> ProductIds { get; set; }
+        public List<ProductOrderModel> Products { get; set; }
     }
 }

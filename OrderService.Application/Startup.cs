@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using OrderService.Application.Extensions;
+using OrderService.BusinessLogic.Adapters;
 using OrderService.BusinessLogic.Contexts;
 using OrderService.BusinessLogic.Extensions;
 using OrderService.Contract.Interfaces;
@@ -24,6 +25,7 @@ namespace OrderService.Application
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IOrderService, BusinessLogic.Services.OrderService>();
+            services.AddTransient<IProductServiceAdapter, ProductServiceAdapter>();
             
             services.AddDbContext(Configuration);
             services.AddFluentValidation();

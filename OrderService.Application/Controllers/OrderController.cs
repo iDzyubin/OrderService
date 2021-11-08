@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using OrderService.BusinessLogic.Adapters;
 using OrderService.BusinessLogic.Models;
 using OrderService.Contract.Entities;
 using OrderService.Contract.Interfaces;
+using ProductService.BusinessLogic.Models;
 
 namespace OrderService.Application.Controllers
 {
@@ -13,11 +17,13 @@ namespace OrderService.Application.Controllers
     public class OrderController : ControllerBase
     {
         private readonly IOrderService _orderService;
+        private readonly IProductServiceAdapter _productServiceAdapter;
         private readonly IMapper _mapper;
 
-        public OrderController(IOrderService orderService, IMapper mapper)
+        public OrderController(IOrderService orderService, IProductServiceAdapter productServiceAdapter, IMapper mapper)
         {
             _orderService = orderService;
+            _productServiceAdapter = productServiceAdapter;
             _mapper = mapper;
         }
 
@@ -83,7 +89,15 @@ namespace OrderService.Application.Controllers
             
             try
             {
-                var result = await _orderService.CreateOrderAsync(_mapper.Map<Order>(request));
+                var reply = _productServiceAdapter.GetProductsByIds(new GetProductsByIdsRequest
+                {
+                    ProductIds = request.Products.Select(x => x.ProductId)
+                });
+
+                FillProductsCount(reply, request.Products);
+                var order = new Order { CustomerId = request.CustomerId };
+                var result = await _orderService.CreateOrderAsync(_mapper.Map(reply, order));
+                
                 return Ok(_mapper.Map<CreateOrderReply>(result));
             }
             catch (Exception e)
@@ -102,7 +116,15 @@ namespace OrderService.Application.Controllers
             
             try
             {
-                var result = await _orderService.UpdateOrderAsync(_mapper.Map<Order>(request));
+                var reply = _productServiceAdapter.GetProductsByIds(new GetProductsByIdsRequest
+                {
+                    ProductIds = request.Products.Select(x => x.ProductId)
+                });
+
+                FillProductsCount(reply, request.Products);
+                var order = new Order { CustomerId = request.CustomerId };
+                var result = await _orderService.UpdateOrderAsync(_mapper.Map(reply, order));
+                
                 return Ok(_mapper.Map<UpdateOrderReply>(result));
             }
             catch (Exception e)
@@ -128,6 +150,14 @@ namespace OrderService.Application.Controllers
             {
                 return BadRequest(e.ToString());
             }
+        }
+
+        [NonAction]
+        private void FillProductsCount(GetProductsByIdsReply reply, IEnumerable<ProductOrderModel> products)
+        {
+            reply.Products = from product in reply.Products
+                join p in products on product.Id equals p.ProductId
+                select new Product { Id = product.Id, Price = product.Price, Title = product.Title, Count = p.Count };
         }
     }
 }

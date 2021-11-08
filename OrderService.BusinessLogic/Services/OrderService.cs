@@ -23,15 +23,6 @@ namespace OrderService.BusinessLogic.Services
 
         public async Task<Order> CreateOrderAsync(Order order)
         {
-            try
-            {
-                // TODO. Service bus transfer here.
-            }
-            catch (Exception e)
-            {
-                throw new InvalidOperationException("Cannot create an order");
-            }
-            
             var result = await _orderContext.Orders.AddAsync(order);
             await _orderContext.SaveChangesAsync();
             return result.Entity;
@@ -41,15 +32,6 @@ namespace OrderService.BusinessLogic.Services
         {
             if (await _orderContext.Orders.AnyAsync(x => x.Id == order.Id))
                 throw new InvalidOperationException("Order was not found");
-
-            try
-            {
-                // TODO. Service bus transfer here.
-            }
-            catch (Exception e)
-            {
-                throw new InvalidOperationException("Cannot update an order");
-            }
             
             var result = _orderContext.Update(order);
             await _orderContext.SaveChangesAsync();

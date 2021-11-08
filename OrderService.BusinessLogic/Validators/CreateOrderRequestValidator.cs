@@ -16,13 +16,13 @@ namespace OrderService.BusinessLogic.Validators
                 .NotNull()
                 .WithMessage("Customer id cannot be null")
                 .GreaterThan(0)
-                .WithMessage(x => $"Invalid field 'ProductId'. Value: {x.CustomerId}");
+                .WithMessage(x => $"Invalid field 'CustomerId'. Value: {x.CustomerId}");
 
-            RuleFor(x => x.ProductIds)
+            RuleFor(x => x.Products)
                 .NotEmpty()
-                .WithMessage("")
+                .WithMessage("Product's list cannot be empty")
                 .Must(x => x.Any())
-                .WithMessage("Product ids must contains at least one item");
+                .WithMessage("Product's list must contains at least one item");
         }
     }
 }

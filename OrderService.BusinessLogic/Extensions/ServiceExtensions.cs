@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NATS.Client;
+using NatsExtensions.Services;
 using OrderService.BusinessLogic.Contexts;
 using OrderService.BusinessLogic.Validators;
 
@@ -46,7 +47,8 @@ namespace OrderService.BusinessLogic.Extensions
                 var options = ConnectionFactory.GetDefaultOptions();
                 options.Url = configuration.GetConnectionString("NatsConnection");
                 return factory.CreateConnection();
-            });
+            })
+            .AddTransient<INatsService, NatsService>();
         }
     }
 }

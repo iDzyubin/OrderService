@@ -3,6 +3,7 @@ using System.Linq;
 using AutoMapper;
 using OrderService.BusinessLogic.Models;
 using OrderService.Contract.Entities;
+using ProductService.BusinessLogic.Models;
 
 namespace OrderService.BusinessLogic.Profiles
 {
@@ -24,6 +25,10 @@ namespace OrderService.BusinessLogic.Profiles
             CreateMap<IEnumerable<Order>, GetOrdersByCustomerIdReply>()
                 .ForMember(dest => dest.CustomerId, opt => opt.MapFrom(src => src.First().CustomerId))
                 .ForMember(dest => dest.Orders, opt => opt.MapFrom(src => src));
+
+            CreateMap<GetProductsByIdsReply, Order>()
+                .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products))
+                .ForMember(dest => dest.Sum, opt => opt.MapFrom(src => src.Products.Sum(x => x.Count * x.Price)));
         }
     }
 }
