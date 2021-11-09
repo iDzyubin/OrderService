@@ -1,9 +1,14 @@
-﻿namespace OrderService.BusinessLogic.Models
+﻿using NatsExtensions.Attributes;
+using NatsExtensions.Models;
+using OrderService.Contract.Messages;
+
+namespace OrderService.BusinessLogic.Models
 {
     /// <summary>
     ///     Запрос на удаление заказа
     /// </summary>
-    public class DeleteOrderRequest
+    [ServiceBus(Code = ServiceBusCodes.DeleteOrderRequest)]
+    public class DeleteOrderRequest : Request
     {
         /// <summary>
         ///     Идентификатор заказа

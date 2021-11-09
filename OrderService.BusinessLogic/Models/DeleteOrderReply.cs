@@ -1,12 +1,16 @@
 ﻿using System.Collections.Generic;
+using NatsExtensions.Attributes;
+using NatsExtensions.Models;
 using OrderService.Contract.Entities;
+using OrderService.Contract.Messages;
 
 namespace OrderService.BusinessLogic.Models
 {
     /// <summary>
     ///     Ответ на удалении заказа
     /// </summary>
-    public class DeleteOrderReply
+    [ServiceBus(Code = ServiceBusCodes.DeleteOrderReply)]
+    public class DeleteOrderReply : Reply
     {
         /// <summary>
         ///     Идентификатор заказа

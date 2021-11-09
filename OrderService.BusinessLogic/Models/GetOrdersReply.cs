@@ -1,12 +1,16 @@
 ﻿using System.Collections.Generic;
+using NatsExtensions.Attributes;
+using NatsExtensions.Models;
 using OrderService.Contract.Entities;
+using OrderService.Contract.Messages;
 
 namespace OrderService.BusinessLogic.Models
 {
     /// <summary>
     ///     Ответ на запрос о получении всех заказов
     /// </summary>
-    public class GetOrdersReply
+    [ServiceBus(Code = ServiceBusCodes.GetOrdersReply)]
+    public class GetOrdersReply : Reply
     {
         /// <summary>
         ///     Коллекция заказов

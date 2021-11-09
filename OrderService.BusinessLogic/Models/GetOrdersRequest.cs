@@ -1,7 +1,14 @@
-﻿namespace OrderService.BusinessLogic.Models
+﻿using NatsExtensions.Attributes;
+using NatsExtensions.Models;
+using OrderService.Contract.Messages;
+
+namespace OrderService.BusinessLogic.Models
 {
-    public class GetOrdersRequest
+    /// <summary>
+    ///     Запрос на получение всех заказов
+    /// </summary>
+    [ServiceBus(Code = ServiceBusCodes.GetOrdersRequest)]
+    public class GetOrdersRequest : Request
     {
-        
     }
 }

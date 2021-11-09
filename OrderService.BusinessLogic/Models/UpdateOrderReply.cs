@@ -1,12 +1,16 @@
 ﻿using System.Collections.Generic;
+using NatsExtensions.Attributes;
+using NatsExtensions.Models;
 using OrderService.Contract.Entities;
+using OrderService.Contract.Messages;
 
 namespace OrderService.BusinessLogic.Models
 {
     /// <summary>
     ///     Ответ на запрос об обновлении информации по заказу
     /// </summary>
-    public class UpdateOrderReply
+    [ServiceBus(Code = ServiceBusCodes.UpdateOrderReply)]
+    public class UpdateOrderReply : Reply
     {
         /// <summary>
         ///     Идентификатор заказа

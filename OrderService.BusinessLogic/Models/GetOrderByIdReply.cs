@@ -1,12 +1,16 @@
 ﻿using System.Collections.Generic;
+using NatsExtensions.Attributes;
+using NatsExtensions.Models;
 using OrderService.Contract.Entities;
+using OrderService.Contract.Messages;
 
 namespace OrderService.BusinessLogic.Models
 {
     /// <summary>
     ///     Ответ на запрос о получении заказа
     /// </summary>
-    public class GetOrderByIdReply
+    [ServiceBus(Code = ServiceBusCodes.GetOrderByIdReply)]
+    public class GetOrderByIdReply : Reply
     {
         /// <summary>
         ///     Идентификатор заказа
