@@ -3,7 +3,6 @@ using System.Linq;
 using AutoMapper;
 using OrderService.BusinessLogic.Models;
 using OrderService.Contract.Entities;
-using ProductService.BusinessLogic.Models;
 
 namespace OrderService.BusinessLogic.Profiles
 {

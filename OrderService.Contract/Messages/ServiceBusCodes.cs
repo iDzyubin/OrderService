@@ -125,12 +125,12 @@
         /// <summary>
         ///     Запрос на обновление информации о товаре
         /// </summary>
-        public const int UpdateProductRequest = 30004;
+        public const int UpdateProductRequest = 30011;
         
         /// <summary>
         ///     Ответ на запрос обновления информации о товаре
         /// </summary>
-        public const int UpdateProductReply = 30004;
+        public const int UpdateProductReply = 30012;
         
         #endregion
     }

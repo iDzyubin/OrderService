@@ -6,7 +6,7 @@ using OrderService.BusinessLogic.Models;
 using OrderService.BusinessLogic.Validators;
 using OrderService.Contract.Interfaces;
 
-namespace OrderService.Application.Handlers
+namespace OrderService.BusinessLogic.Handlers
 {
     public class GetOrdersByCustomerIdHandler : IHandler<GetOrdersByCustomerIdRequest, GetOrdersByCustomerIdReply>
     {

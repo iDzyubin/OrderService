@@ -3,7 +3,7 @@ using NatsExtensions.Attributes;
 using NatsExtensions.Models;
 using OrderService.Contract.Messages;
 
-namespace ProductService.BusinessLogic.Models
+namespace OrderService.BusinessLogic.Models
 {
     /// <summary>
     ///     Запрос на получение товаров по идентификаторам

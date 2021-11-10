@@ -4,11 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using NatsExtensions.Proxies;
 using OrderService.BusinessLogic.Adapters;
 using OrderService.BusinessLogic.Models;
 using OrderService.Contract.Entities;
 using OrderService.Contract.Interfaces;
-using ProductService.BusinessLogic.Models;
+using OrderService.Contract.Messages;
 
 namespace OrderService.Application.Controllers
 {
@@ -17,13 +18,13 @@ namespace OrderService.Application.Controllers
     public class OrderController : ControllerBase
     {
         private readonly IOrderService _orderService;
-        private readonly IProductServiceAdapter _productServiceAdapter;
+        private readonly IProxy<GetProductsByIdsRequest, GetProductsByIdsReply> _productServiceProxy;
         private readonly IMapper _mapper;
 
-        public OrderController(IOrderService orderService, IProductServiceAdapter productServiceAdapter, IMapper mapper)
+        public OrderController(IOrderService orderService, IProxy<GetProductsByIdsRequest, GetProductsByIdsReply> productServiceProxy, IMapper mapper)
         {
             _orderService = orderService;
-            _productServiceAdapter = productServiceAdapter;
+            _productServiceProxy = productServiceProxy;
             _mapper = mapper;
         }
 
@@ -89,10 +90,9 @@ namespace OrderService.Application.Controllers
             
             try
             {
-                var reply = _productServiceAdapter.GetProductsByIds(new GetProductsByIdsRequest
-                {
-                    ProductIds = request.Products.Select(x => x.ProductId)
-                });
+                var reply = _productServiceProxy.Execute(
+                    request: new GetProductsByIdsRequest { ProductIds = request.Products.Select(x => x.ProductId) },
+                    subject: ServiceBusSubjects.ProductSubject);
 
                 FillProductsCount(reply, request.Products);
                 var order = new Order { CustomerId = request.CustomerId };
@@ -116,10 +116,9 @@ namespace OrderService.Application.Controllers
             
             try
             {
-                var reply = _productServiceAdapter.GetProductsByIds(new GetProductsByIdsRequest
-                {
-                    ProductIds = request.Products.Select(x => x.ProductId)
-                });
+                var reply = _productServiceProxy.Execute(
+                    request: new GetProductsByIdsRequest { ProductIds = request.Products.Select(x => x.ProductId) },
+                    subject: ServiceBusSubjects.ProductSubject);
 
                 FillProductsCount(reply, request.Products);
                 var order = new Order { CustomerId = request.CustomerId };

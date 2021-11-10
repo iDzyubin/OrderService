@@ -4,7 +4,7 @@ using NatsExtensions.Models;
 using OrderService.Contract.Entities;
 using OrderService.Contract.Messages;
 
-namespace ProductService.BusinessLogic.Models
+namespace OrderService.BusinessLogic.Models
 {
     /// <summary>
     ///     Ответ на запрос о получении товаров по идентификаторам

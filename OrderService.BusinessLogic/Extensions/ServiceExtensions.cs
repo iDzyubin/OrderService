@@ -4,9 +4,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NATS.Client;
+using NatsExtensions.Extensions;
 using NatsExtensions.Options;
 using NatsExtensions.Services;
+using OrderService.BusinessLogic.Adapters;
 using OrderService.BusinessLogic.Contexts;
+using OrderService.BusinessLogic.Handlers;
+using OrderService.BusinessLogic.Models;
 using OrderService.BusinessLogic.Validators;
 
 namespace OrderService.BusinessLogic.Extensions
@@ -50,7 +54,21 @@ namespace OrderService.BusinessLogic.Extensions
                 return factory.CreateConnection();
             })
             .AddTransient<INatsService, NatsService>()
-            .Configure<NatsOptions>(configuration.GetSection("Nats"));
+            .Configure<NatsOptions>(configuration.GetSection("Nats"))
+            .AddNatsHandlers()
+            .AddNatsProxies();
         }
+
+        private static IServiceCollection AddNatsHandlers(this IServiceCollection services) =>
+            services.AddNatsHandler<
+                GetOrdersByCustomerIdRequest, 
+                GetOrdersByCustomerIdReply, 
+                GetOrdersByCustomerIdHandler>();
+        
+        private static IServiceCollection AddNatsProxies(this IServiceCollection services) =>
+            services.AddNatsProxy<
+                GetProductsByIdsRequest, 
+                GetProductsByIdsReply, 
+                ProductServiceProxy>();
     }
 }
