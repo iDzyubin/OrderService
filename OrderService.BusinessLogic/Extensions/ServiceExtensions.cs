@@ -7,10 +7,10 @@ using NATS.Client;
 using NatsExtensions.Extensions;
 using NatsExtensions.Options;
 using NatsExtensions.Services;
-using OrderService.BusinessLogic.Adapters;
 using OrderService.BusinessLogic.Contexts;
 using OrderService.BusinessLogic.Handlers;
 using OrderService.BusinessLogic.Models;
+using OrderService.BusinessLogic.Proxies;
 using OrderService.BusinessLogic.Validators;
 
 namespace OrderService.BusinessLogic.Extensions

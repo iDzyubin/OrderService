@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using NatsExtensions.Proxies;
-using OrderService.BusinessLogic.Adapters;
 using OrderService.BusinessLogic.Models;
 using OrderService.Contract.Entities;
 using OrderService.Contract.Interfaces;

@@ -2,7 +2,7 @@
 using NatsExtensions.Services;
 using OrderService.BusinessLogic.Models;
 
-namespace OrderService.BusinessLogic.Adapters
+namespace OrderService.BusinessLogic.Proxies
 {
     public class ProductServiceProxy : BaseProxy<GetProductsByIdsRequest, GetProductsByIdsReply>
     {

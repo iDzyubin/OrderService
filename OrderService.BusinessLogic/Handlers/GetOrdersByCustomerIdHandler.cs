@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using NatsExtensions.Handlers;
@@ -24,7 +25,7 @@ namespace OrderService.BusinessLogic.Handlers
             var validationResult = await new GetOrdersByCustomerIdRequestValidator().ValidateAsync(request);
             if (!validationResult.IsValid)
             {
-                throw new InvalidOperationException("Request has validation errors");
+                throw new InvalidOperationException($"Request has validation errors: {string.Join(", ", validationResult.Errors.Select(x => x.ErrorMessage))}");
             }
 
             var result = await _orderService.GetOrdersByCustomerIdAsync(request.CustomerId);

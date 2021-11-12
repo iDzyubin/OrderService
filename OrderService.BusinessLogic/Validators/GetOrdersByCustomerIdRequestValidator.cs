@@ -7,7 +7,9 @@ namespace OrderService.BusinessLogic.Validators
     {
         public GetOrdersByCustomerIdRequestValidator()
         {
-            
+            RuleFor(x => x.CustomerId)
+                .GreaterThan(0)
+                .WithMessage("Некоректный идентификатор покупателя");
         }
     }
 }
